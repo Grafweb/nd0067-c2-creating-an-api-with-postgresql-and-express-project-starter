@@ -1,0 +1,16 @@
+{
+    "dev": {
+        "driver": "pg",
+        "user": "dsikorski",
+        "password": "dsikorski",
+        "host": "localhost",
+        "database": "book"
+  },
+  "test": {
+        "driver": "pg",
+        "user": "dsikorski_test",
+        "password": "dsikorski",
+        "host": "localhost",
+        "database": "book_test"
+  }
+}
