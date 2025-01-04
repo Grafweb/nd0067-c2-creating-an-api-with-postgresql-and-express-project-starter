@@ -1,8 +1,9 @@
 import express, { Request, Response } from 'express'
-import articleRoutes from './routes/books'
+import booksRoutes from './routes/books'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import usersRoutes from './routes/users'
+import ordersRoutes from './routes/orders'
 
 const app: express.Application = express()
 const address: string = "0.0.0.0:3000"
@@ -26,5 +27,6 @@ app.listen(3000, function () {
     console.log(`starting app on: ${address}`)
 })
 
-articleRoutes(app)
+booksRoutes(app)
 usersRoutes(app)
+ordersRoutes(app)

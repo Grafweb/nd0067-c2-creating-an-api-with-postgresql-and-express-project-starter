@@ -6,8 +6,12 @@
   "scripts": {
     "start": "node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "ENV=test && npx tsc && db-migrate --env test up && jasmine && db-migrate db:drop test",
-    "tsc": "tsc"
+    "test": "npx tsc && db-migrate --env test up && jasmine && db-migrate db:drop test --env test",
+    "tsc": "tsc",
+    "format:check": "prettier --check src/**/*.ts",
+    "format:write": "prettier --write src/**/*.ts",
+    "lint:check": "eslint src/**/*.ts",
+    "lint:fix": "eslint --fix src/**/*.ts"
   },
   "author": "Udacity",
   "license": "ISC",
@@ -29,9 +33,11 @@
     "@types/jasmine": "^3.6.3",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/pg": "^7.14.7",
+    "eslint": "^9.17.0",
     "jasmine": "^3.6.4",
     "jasmine-spec-reporter": "^6.0.0",
     "jasmine-ts": "^0.3.0",
+    "prettier": "^3.4.2",
     "ts-node": "^9.1.1",
     "tsc-watch": "^4.2.9"
   }

@@ -21,6 +21,7 @@ const create = async (req: Request, res: Response) => {
             type: req.body.type,
             published_year: req.body.published_year,
             pages: req.body.pages,
+            price: req.body.price
         }
 
         const newBook = await store.create(book)
@@ -36,11 +37,11 @@ const destroy = async (req: Request, res: Response) => {
     res.json(deleted)
 }
 
-const articleRoutes = (app: express.Application) => {
+const booksRoutes = (app: express.Application) => {
   app.get('/books', index)
   app.get('/books/:id', show)
   app.post('/books', create)
   app.delete('/books/:id', destroy)
 }
 
-export default articleRoutes
+export default booksRoutes

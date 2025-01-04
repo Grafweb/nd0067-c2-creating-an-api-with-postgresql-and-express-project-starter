@@ -9,8 +9,18 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - 'postgres:/var/lib/postgresql/data'
-      - ./postgres-data:/var/lib/postgresql/data
-
+      - data:/var/lib/postgresql/data
+  postgres_test:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: dsikorski
+      POSTGRES_PASSWORD: dsikorski
+      POSTGRES_DB: book_test
+    ports:
+      - '5432:5432'
+    volumes:
+      - data2:/var/lib/postgresql/data
 volumes:
-  postgres:
+  data:
+  data2:

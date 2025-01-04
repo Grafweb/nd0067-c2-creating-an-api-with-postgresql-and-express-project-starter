@@ -1,4 +1,3 @@
-import { idText } from "typescript";
 import { BookStore } from "../book";
 
 const store = new BookStore();
