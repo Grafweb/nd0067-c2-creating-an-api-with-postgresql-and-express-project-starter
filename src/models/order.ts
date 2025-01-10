@@ -1,8 +1,8 @@
-import client from "../database";
+import client from '../database';
 
 export enum STATUS {
-  ACTIVE = "active",
-  COMPLETE = "complete",
+  ACTIVE = 'active',
+  COMPLETE = 'complete',
 }
 
 export type Order = {
@@ -14,10 +14,11 @@ export type Order = {
 };
 
 export class OrderStore {
+  //POSTGRESQL get all orders
   async index(): Promise<Order[]> {
     try {
       const conn = await client.connect();
-      const sql = "SELECT * FROM orders";
+      const sql = 'SELECT * FROM orders';
       const result = await conn.query(sql);
 
       conn.release();
@@ -28,10 +29,11 @@ export class OrderStore {
     }
   }
 
+  //POSTGRESQL get one order with param id
   async show(id: string): Promise<Order> {
     try {
-      const sql = "SELECT * FROM orders WHERE id=($1)";
-      // @ts-ignore
+      const sql = 'SELECT * FROM orders WHERE id=($1)';
+
       const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);
@@ -44,11 +46,12 @@ export class OrderStore {
     }
   }
 
+  //POSTGRESQL create order
   async create(b: Order): Promise<Order> {
     try {
       const sql =
-        "INSERT INTO orders (id_product, quantity, user_id, status) VALUES($1, $2, $3, $4) RETURNING *";
-      // @ts-ignore
+        'INSERT INTO orders (id_product, quantity, user_id, status) VALUES($1, $2, $3, $4) RETURNING *';
+
       const conn = await client.connect();
 
       const result = await conn.query(sql, [
@@ -68,10 +71,11 @@ export class OrderStore {
     }
   }
 
+  //POSTGRESQL delete order with param id
   async delete(id: string): Promise<Order> {
     try {
-      const sql = "DELETE FROM orders WHERE id=($1)";
-      // @ts-ignore
+      const sql = 'DELETE FROM orders WHERE id=($1)';
+      //
       const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);

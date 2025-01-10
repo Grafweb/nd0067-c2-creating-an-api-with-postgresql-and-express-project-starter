@@ -5,5 +5,5 @@ CREATE TABLE books(
     type varchar(255),
     published_year varchar(255),
     pages int,
-    price NUMERIC(10,2)
+    price float
 )

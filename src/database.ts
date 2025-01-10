@@ -1,6 +1,7 @@
-import dotenv from "dotenv";
-import { Pool } from "pg";
+import dotenv from 'dotenv';
+import { Pool } from 'pg';
 
+//configure dotenv
 dotenv.config();
 const {
   POSTGRES_HOST,
@@ -11,9 +12,11 @@ const {
   ENV,
 } = process.env;
 
+//create pool connection for database
 let client: Pool = new Pool();
 
-if (ENV === "test") {
+//configuration for test database
+if (ENV === 'test') {
   client = new Pool({
     host: POSTGRES_HOST,
     database: POSTGRES_DB_TEST,
@@ -22,7 +25,8 @@ if (ENV === "test") {
   });
 }
 
-if (ENV === "dev") {
+//configuration for dev database
+if (ENV === 'dev') {
   client = new Pool({
     host: POSTGRES_HOST,
     database: POSTGRES_DB,

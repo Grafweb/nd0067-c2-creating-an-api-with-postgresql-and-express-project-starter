@@ -1,6 +1,6 @@
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
-    firstName varchar(255),
-    lastName varchar(255),
+    firstname varchar(255),
+    lastname varchar(255),
     password varchar(255)
 )

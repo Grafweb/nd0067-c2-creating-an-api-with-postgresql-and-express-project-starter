@@ -1,4 +1,4 @@
-import client from "../database";
+import client from '../database';
 
 export type Book = {
   id?: number;
@@ -11,10 +11,11 @@ export type Book = {
 };
 
 export class BookStore {
+  //POSTGRESQL get all books
   async index(): Promise<Book[]> {
     try {
       const conn = await client.connect();
-      const sql = "SELECT * FROM books";
+      const sql = 'SELECT * FROM books';
       const result = await conn.query(sql);
 
       conn.release();
@@ -25,10 +26,11 @@ export class BookStore {
     }
   }
 
+  //POSTGRESQL get one book with param id
   async show(id: string): Promise<Book> {
     try {
-      const sql = "SELECT * FROM books WHERE id=($1)";
-      // @ts-ignore
+      const sql = 'SELECT * FROM books WHERE id=($1)';
+
       const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);
@@ -41,11 +43,12 @@ export class BookStore {
     }
   }
 
+  //POSTGRESQL create book
   async create(b: Book): Promise<Book> {
     try {
       const sql =
-        "INSERT INTO books (title, author, type, pages, published_year, price) VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
-      // @ts-ignore
+        'INSERT INTO books (title, author, type, pages, published_year, price) VALUES($1, $2, $3, $4, $5, $6) RETURNING *';
+
       const conn = await client.connect();
 
       const result = await conn.query(sql, [
@@ -67,10 +70,11 @@ export class BookStore {
     }
   }
 
+  //POSTGRESQL delete book with param id
   async delete(id: string): Promise<Book> {
     try {
-      const sql = "DELETE FROM books WHERE id=($1)";
-      // @ts-ignore
+      const sql = 'DELETE FROM books WHERE id=($1)';
+
       const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);

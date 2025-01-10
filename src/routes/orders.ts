@@ -1,17 +1,21 @@
-import { Order, OrderStore } from "../models/order";
-import express, { Request, Response } from "express";
+import { Order, OrderStore } from '../models/order';
+import express, { Request, Response } from 'express';
 
 const store = new OrderStore();
 
+//API get all orders
 const index = async (_req: Request, res: Response) => {
   const orders = await store.index();
   res.json(orders);
 };
 
+//API get one order with param id
 const show = async (req: Request, res: Response) => {
   const order = await store.show(req.params.id);
   res.json(order);
 };
+
+//API create order
 const create = async (req: Request, res: Response) => {
   try {
     const order: Order = {
@@ -28,17 +32,17 @@ const create = async (req: Request, res: Response) => {
     res.json(err);
   }
 };
-
+//API delete orders with param id
 const destroy = async (req: Request, res: Response) => {
   const deleted = await store.delete(req.body.id);
   res.json(deleted);
 };
-
+//set api for orders
 const ordersRoutes = (app: express.Application) => {
-  app.get("/orders", index);
-  app.get("/orders/:id", show);
-  app.post("/orders", create);
-  app.delete("/orders/:id", destroy);
+  app.get('/orders', index);
+  app.get('/orders/:id', show);
+  app.post('/orders', create);
+  app.delete('/orders/:id', destroy);
 };
 
 export default ordersRoutes;
