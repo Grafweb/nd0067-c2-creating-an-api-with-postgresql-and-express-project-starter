@@ -42,7 +42,6 @@ describe('Book Store Model', () => {
 
   it('index method shold return a list of products', async () => {
     const result = await store.index();
-    console.log('result :', result);
     expect(result).toEqual([{ id: 1, ...sample }]);
   });
 

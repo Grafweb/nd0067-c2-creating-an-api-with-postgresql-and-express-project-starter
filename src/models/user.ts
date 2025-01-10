@@ -10,16 +10,13 @@ export type User = {
 export class UsersModel {
   //POSTGRESQL get all users
   async index(): Promise<User[]> {
-    console.log('User Model TEST');
     try {
       const conn = await client.connect();
       const sql = 'SELECT * FROM Users';
       const result = await conn.query(sql);
 
       conn.release();
-      console.log('User Model TEST 3');
 
-      console.log('User Model TEST 4: ', result.rows);
       return result.rows;
     } catch (err) {
       throw new Error(`Could not get Users. Error: ${err}`);

@@ -17,7 +17,6 @@ describe('User Store Model', () => {
   beforeAll(async function () {
     (id as number) += 1;
     sample = await orderModel.create(sampleOrder);
-    console.log('result :', sample);
   });
 
   afterAll(function () {
@@ -42,7 +41,6 @@ describe('User Store Model', () => {
 
   it('index method shold return a list of orders', async () => {
     const result = await orderModel.index();
-    console.log('result from test :', result);
     expect(result).toEqual([{ id: 1, ...sample }]);
   });
 
