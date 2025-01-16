@@ -3,5 +3,6 @@ CREATE TABLE orders(
     id_product int,
     quantity int,
     user_id int,
-    status varchar(255)
+    status varchar(255),
+    CONSTRAINT fk_users FOREIGN KEY(user_id) REFERENCES users(id)
 )
