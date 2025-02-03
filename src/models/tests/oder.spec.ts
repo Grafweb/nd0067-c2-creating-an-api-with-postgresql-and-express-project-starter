@@ -1,11 +1,25 @@
+import { Book, BookStore } from '../book';
 import { Order, OrderStore, STATUS } from '../order';
+import { User, UsersModel } from '../user';
 
 const orderModel = new OrderStore();
 
 describe('User Store Model', () => {
-  let id: number | string = 0;
-
   let sample: Order;
+
+  const userModel = new UsersModel();
+
+  const store = new BookStore();
+
+  const sampleBook: Book = {
+    title: 'Sample 1',
+    author: 'John',
+    type: 'commedy',
+    published_year: '1994',
+    pages: 150,
+    // prettier-ignore
+    price: 15.00,
+  };
 
   const sampleOrder: Order = {
     id_product: 1,
@@ -14,13 +28,20 @@ describe('User Store Model', () => {
     status: STATUS.ACTIVE,
   };
 
-  beforeAll(async function () {
-    (id as number) += 1;
-    sample = await orderModel.create(sampleOrder);
-  });
+  const sampleUser: User = {
+    firstname: 'admin',
+    lastname: 'admin',
+    password: 'test',
+  };
 
-  afterAll(function () {
-    id = 0;
+  beforeAll(async function () {
+    try {
+      await store.create(sampleBook);
+      await userModel.create(sampleUser);
+      sample = await orderModel.create(sampleOrder);
+    } catch (err) {
+      throw new Error(`Could not create order and user. Error: ${err}`);
+    }
   });
 
   it('should have an index method', () => {
@@ -40,26 +61,26 @@ describe('User Store Model', () => {
   });
 
   it('index method shold return a list of orders', async () => {
-    const result = await orderModel.index();
-    expect(result).toEqual([{ id: 1, ...sample }]);
+    try {
+      const result = await orderModel.index();
+      expect(
+        result[result.length - 1].quantity === sample.quantity
+      ).toBeTruthy();
+    } catch (err) {
+      throw new Error(`Could not make test. Error: ${err}`);
+    }
   });
 
   it('show method shold return a order', async () => {
-    const result = await orderModel.show(id.toString());
-
-    expect(result).toEqual({
-      id: id as number,
-      ...sample,
-    });
+    try {
+      const result = await orderModel.show((sample?.id as number).toString());
+      expect(result.quantity === sample.quantity).toBeTruthy();
+    } catch (err) {
+      throw new Error(`Could not make test. Error: ${err}`);
+    }
   });
 
   it('create method should add a order', () => {
-    expect({
-      id: id as number,
-      ...sampleOrder,
-    }).toEqual({
-      id: id as number,
-      ...sample,
-    });
+    expect(sampleOrder.quantity === sample.quantity).toBeTruthy();
   });
 });

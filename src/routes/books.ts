@@ -4,19 +4,29 @@ import express, { Request, Response } from 'express';
 const store = new BookStore();
 
 //API get all books
-const index = async (_req: Request, res: Response) => {
-  const books = await store.index();
-  res.json(books);
+export const index = async (_req: Request, res: Response) => {
+  try {
+    const books = await store.index();
+    res.json(books);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 //API get one book with param id
-const show = async (req: Request, res: Response) => {
-  const book = await store.show(req.params.id);
-  res.json(book);
+export const show = async (req: Request, res: Response) => {
+  try {
+    const book = await store.show(req.params.id);
+    res.json(book);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 //API create book
-const create = async (req: Request, res: Response) => {
+export const create = async (req: Request, res: Response) => {
   try {
     const book: Book = {
       title: req.body.title,
@@ -36,9 +46,14 @@ const create = async (req: Request, res: Response) => {
 };
 
 //API delete book with param id
-const destroy = async (req: Request, res: Response) => {
-  const deleted = await store.delete(req.body.id);
-  res.json(deleted);
+export const destroy = async (req: Request, res: Response) => {
+  try {
+    const deleted = await store.delete(req.body.id);
+    res.json(deleted);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 //set api for books

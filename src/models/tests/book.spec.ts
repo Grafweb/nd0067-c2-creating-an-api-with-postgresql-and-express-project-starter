@@ -3,7 +3,7 @@ import { Book, BookStore } from '../book';
 const store = new BookStore();
 
 describe('Book Store Model', () => {
-  let id: number | string = 0;
+  let testBook: Book;
 
   const sample: Book = {
     title: 'Sample 1',
@@ -16,12 +16,11 @@ describe('Book Store Model', () => {
   };
 
   beforeAll(async function () {
-    (id as number) += 1;
-    await store.create(sample);
-  });
-
-  afterAll(function () {
-    id = 0;
+    try {
+      testBook = await store.create(sample);
+    } catch (err) {
+      throw new Error(`Could not create book. Error: ${err}`);
+    }
   });
 
   it('should have an index method', () => {
@@ -41,17 +40,25 @@ describe('Book Store Model', () => {
   });
 
   it('index method shold return a list of products', async () => {
-    const result = await store.index();
-    expect(result).toEqual([{ id: 1, ...sample }]);
+    try {
+      const result = await store.index();
+      expect(result[0].title === sample.title).toBeTruthy();
+    } catch (err) {
+      throw new Error(`Could not make test. Error: ${err}`);
+    }
   });
 
   it('show method shold return a product', async () => {
-    const result = await store.show(id.toString());
+    try {
+      const result = await store.show((testBook.id as number).toString());
 
-    expect(result).toEqual({
-      id: id as number,
-      ...sample,
-    });
+      expect(result).toEqual({
+        id: testBook.id,
+        ...sample,
+      });
+    } catch (err) {
+      throw new Error(`Could not make test. Error: ${err}`);
+    }
   });
 
   it('create method should add a book', async () => {

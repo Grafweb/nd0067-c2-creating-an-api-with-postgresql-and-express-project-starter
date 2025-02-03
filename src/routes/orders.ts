@@ -4,19 +4,29 @@ import express, { Request, Response } from 'express';
 const store = new OrderStore();
 
 //API get all orders
-const index = async (_req: Request, res: Response) => {
-  const orders = await store.index();
-  res.json(orders);
+export const index = async (_req: Request, res: Response) => {
+  try {
+    const orders = await store.index();
+    res.json(orders);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 //API get one order with param id
-const show = async (req: Request, res: Response) => {
-  const order = await store.show(req.params.id);
-  res.json(order);
+export const show = async (req: Request, res: Response) => {
+  try {
+    const order = await store.show(req.params.id);
+    res.json(order);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 //API create order
-const create = async (req: Request, res: Response) => {
+export const create = async (req: Request, res: Response) => {
   try {
     const order: Order = {
       id_product: req.body.id_product,
@@ -33,9 +43,14 @@ const create = async (req: Request, res: Response) => {
   }
 };
 //API delete orders with param id
-const destroy = async (req: Request, res: Response) => {
-  const deleted = await store.delete(req.body.id);
-  res.json(deleted);
+export const destroy = async (req: Request, res: Response) => {
+  try {
+    const deleted = await store.delete(req.body.id);
+    res.json(deleted);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 //set api for orders
 const ordersRoutes = (app: express.Application) => {

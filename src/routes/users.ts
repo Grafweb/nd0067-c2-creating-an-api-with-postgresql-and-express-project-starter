@@ -6,21 +6,31 @@ import dotenv from 'dotenv';
 import authorization from '../authorization';
 dotenv.config();
 
-const store = new UsersModel();
+export const store = new UsersModel();
 const saltRounds = 10;
 
 //API get all users
-const index = async (_req: Request, res: Response) => {
-  const users = await store.index();
-  res.json(users);
+export const index = async (_req: Request, res: Response) => {
+  try {
+    const users = await store.index();
+    res.json(users);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 //API get one user with param id
-const show = async (req: Request, res: Response) => {
-  const user = await store.show(req.params.id);
-  res.json(user);
+export const show = async (req: Request, res: Response) => {
+  try {
+    const user = await store.show(req.params.id);
+    res.json(user);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 //API create user with token
-const create = async (req: Request, res: Response) => {
+export const create = async (req: Request, res: Response) => {
   try {
     const user: User = {
       firstname: req.body.firstname,
@@ -42,7 +52,7 @@ const create = async (req: Request, res: Response) => {
   }
 };
 //API login user with params firstname and password
-const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
   try {
     const user: Omit<User, 'lastname'> = {
       firstname: req.body.firstname,
@@ -69,9 +79,14 @@ const login = async (req: Request, res: Response) => {
 };
 
 //API delete user with param id
-const destroy = async (req: Request, res: Response) => {
-  const deleted = await store.delete(req.params.id);
-  res.json(deleted);
+export const destroy = async (req: Request, res: Response) => {
+  try {
+    const deleted = await store.delete(req.params.id);
+    res.json(deleted);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 //set api for users
