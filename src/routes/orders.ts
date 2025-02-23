@@ -25,6 +25,17 @@ export const show = async (req: Request, res: Response) => {
   }
 };
 
+//API get all order products with param id
+export const show_order_products = async (req: Request, res: Response) => {
+  try {
+    const order_products = await store.show_order_products(req.params.id);
+    res.json(order_products);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
+};
+
 //API create order
 export const create = async (req: Request, res: Response) => {
   try {
@@ -56,6 +67,7 @@ export const destroy = async (req: Request, res: Response) => {
 const ordersRoutes = (app: express.Application) => {
   app.get('/orders', index);
   app.get('/orders/:id', show);
+  app.get('/orders/products/:id', show_order_products);
   app.post('/orders', create);
   app.delete('/orders/:id', destroy);
 };

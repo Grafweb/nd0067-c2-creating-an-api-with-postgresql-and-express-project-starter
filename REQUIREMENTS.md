@@ -33,6 +33,7 @@
 
 - list of orders GET http://localhost:3000/orders
 - show one order ID type number GET http://localhost:3000/orders/ID
+- show ordered products by ID order GET http://localhost:3000//orders/products/ID
 - Create order POST http://localhost:3000/orders
   params BODY:
   firstname: string
@@ -60,8 +61,16 @@ table users
 
 table orders
   id SERIAL PRIMARY KEY,
-  id_product int,
-  quantity int,
+  id_product varchar(255),
+  quantity varchar(255),
   user_id int,
   status varchar(255),
   CONSTRAINT fk_users FOREIGN KEY(user_id) REFERENCES users(id)
+
+order_products
+  id_product int,
+  id_order int,
+  quantity int,
+  PRIMARY KEY(id_product,id_order),
+  CONSTRAINT fk_products FOREIGN KEY(id_product) REFERENCES books(id),
+  CONSTRAINT fk_orders FOREIGN KEY(id_order) REFERENCES orders(id)

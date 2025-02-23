@@ -7,10 +7,16 @@ export enum STATUS {
 
 export type Order = {
   id?: number;
-  id_product: number;
-  quantity: number;
+  id_product: number | string;
+  quantity: number | string;
   user_id: number;
   status: STATUS;
+};
+
+export type OrderProducts = {
+  id_product: number;
+  id_order: number;
+  quantity: number;
 };
 
 export class OrderStore {
@@ -46,11 +52,31 @@ export class OrderStore {
     }
   }
 
+  //POSTGRESQL get one order with param id
+  async show_order_products(id: string): Promise<OrderProducts[]> {
+    try {
+      const sql = 'SELECT * FROM order_products WHERE id_order=($1)';
+
+      const conn = await client.connect();
+
+      const result = await conn.query(sql, [id]);
+
+      conn.release();
+
+      return result.rows;
+    } catch (err) {
+      throw new Error(`Could not find order ${id}. Error: ${err}`);
+    }
+  }
+
   //POSTGRESQL create order
   async create(b: Order): Promise<Order> {
     try {
       const sql =
         'INSERT INTO orders (id_product, quantity, user_id, status) VALUES($1, $2, $3, $4) RETURNING *';
+
+      const sql_order_products =
+        'INSERT INTO order_products (id_product, id_order, quantity) VALUES($1, $2, $3) RETURNING *';
 
       const conn = await client.connect();
 
@@ -62,6 +88,18 @@ export class OrderStore {
       ]);
 
       const order = result.rows[0];
+      const id_product = b.id_product.toString();
+      const quantity = b.quantity.toString();
+      if (id_product.includes(',') && quantity.includes(',')) {
+        const quantities = quantity.split(',');
+        id_product.split(',').forEach(async (product_id, idx) => {
+          await conn.query(sql_order_products, [
+            product_id,
+            order.id,
+            quantities[idx],
+          ]);
+        });
+      }
 
       conn.release();
 
