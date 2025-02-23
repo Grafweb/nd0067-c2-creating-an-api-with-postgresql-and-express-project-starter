@@ -46,12 +46,10 @@ describe('Order Store Model', () => {
   };
 
   beforeAll(async function () {
-    console.log('before order sample from routing');
     try {
       await store.create(sampleBook);
       await userModel.create(sampleUser);
       sample = await orderModel.create(sampleOrder);
-      console.log('order sample from routing');
     } catch (err) {
       throw new Error(`Could not create order. Error: ${err}`);
     }

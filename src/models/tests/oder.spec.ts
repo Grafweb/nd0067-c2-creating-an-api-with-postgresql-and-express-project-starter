@@ -39,7 +39,6 @@ describe('User Store Model', () => {
       await store.create(sampleBook);
       await userModel.create(sampleUser);
       sample = await orderModel.create(sampleOrder);
-      console.log('sample sample sample');
     } catch (err) {
       throw new Error(`Could not create order and user. Error: ${err}`);
     }
@@ -82,10 +81,6 @@ describe('User Store Model', () => {
   });
 
   it('create method should add a order', () => {
-    console.log('sampleOrder.quantity - ', sampleOrder.quantity);
-    console.log('sample.quantity - ', sample.quantity);
-    console.log(typeof sampleOrder.quantity);
-    console.log(typeof sample.quantity);
     expect(sampleOrder.quantity === sample.quantity).toBeTruthy();
   });
 });
